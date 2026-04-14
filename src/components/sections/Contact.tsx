@@ -164,19 +164,6 @@ export function Contact() {
             </a>
           ))}
 
-          {/* Ubicación */}
-          <p
-            className="contact-item mt-4"
-            style={{
-              visibility: 'hidden',
-              fontFamily: 'var(--font-display)',
-              fontSize: '13px',
-              color: 'var(--classic-gray)',
-              letterSpacing: '0.1em',
-            }}
-          >
-            Tegucigalpa, Honduras
-          </p>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, lazy, Suspense } from 'react'
 import { gsap, useGSAP } from '@/lib/gsap'
+import { TrueFocus } from '@/components/ui/TrueFocus'
 
 // Lazy load del Dither — Three.js es pesado, solo cargar en desktop
 const Dither = lazy(() =>
@@ -51,10 +52,10 @@ export function Hero({ isReady }: HeroProps) {
     )
 
     entryTl.fromTo(
-      '.hero-scroll-indicator',
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.6 },
-      1.0,
+      '.hero-logo-split',
+      { y: 40, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 1, ease: 'power2.out' },
+      0.8,
     )
 
     // --- Parallax solo en desktop (>768px) ---
@@ -81,8 +82,8 @@ export function Hero({ isReady }: HeroProps) {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative flex h-screen items-center justify-center overflow-hidden"
-      style={{ backgroundColor: 'var(--night-black)' }}
+      className="relative flex h-screen items-center justify-center"
+      style={{ backgroundColor: 'var(--night-black)', overflowX: 'clip', overflowY: 'visible' }}
     >
       {/* === DITHER BACKGROUND — solo desktop === */}
       {isDesktop && (
@@ -157,7 +158,16 @@ export function Hero({ isReady }: HeroProps) {
             visibility: 'hidden',
           }}
         >
-          Transformamos ideas en experiencias visuales memorables.
+          Transformamos ideas en{' '}
+          <TrueFocus
+            sentence="experiencias visuales"
+            blurAmount={3}
+            borderColor="var(--blaze-orange)"
+            glowColor="rgba(255, 94, 39, 0.6)"
+            animationDuration={0.6}
+            pauseBetweenAnimations={1.5}
+          />{' '}
+          memorables.
         </h1>
 
         {/* Subtítulo */}
@@ -175,49 +185,44 @@ export function Hero({ isReady }: HeroProps) {
           Productora audiovisual creativa — Tegucigalpa, HN
         </p>
 
-        {/* Scroll indicator branded — oculto en mobile */}
-        <div
-          className="hero-scroll-indicator absolute hidden md:flex"
-          style={{
-            bottom: '-25vh',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            visibility: 'hidden',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '12px',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '10px',
-              letterSpacing: '0.2em',
-              color: 'var(--classic-gray)',
-              writingMode: 'vertical-lr',
-            }}
-          >
-            SCROLL
-          </span>
-          <div
-            className="scroll-dot"
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--blaze-orange)',
-              animation: 'scrollPulse 2s ease-in-out infinite',
-            }}
-          />
-        </div>
       </div>
 
-      <style>{`
-        @keyframes scrollPulse {
-          0%, 100% { transform: translateY(0); opacity: 1; box-shadow: 0 0 0 0 rgba(255,94,39,0.4); }
-          50% { transform: translateY(8px); opacity: 0.6; box-shadow: 0 0 12px 4px rgba(255,94,39,0.15); }
-        }
-      `}</style>
+      {/* ─── LOGO SPLIT — mitad superior naranja + mitad inferior verde ─── */}
+      {/* Wrapper centrado en el borde inferior del hero (translateY 50% lo divide) */}
+      <div
+        className="hero-logo-split absolute bottom-0 left-1/2"
+        style={{
+          zIndex: 10,
+          transform: 'translateX(-50%) translateY(45%)',
+          width: 'clamp(280px, 55vw, 850px)',
+          visibility: 'hidden',
+        }}
+      >
+        {/* Logo naranja — solo mitad superior visible (clipPath corta la inferior) */}
+        <img
+          src="/logos/logo-dots-orange.png"
+          alt=""
+          className="w-full"
+          style={{
+            display: 'block',
+            clipPath: 'inset(0 0 45% 0)',
+          }}
+          draggable={false}
+          aria-hidden="true"
+        />
+        {/* Logo verde — solo mitad inferior visible, superpuesto exactamente */}
+        <img
+          src="/logos/logo-dots-green.png"
+          alt=""
+          className="absolute left-0 top-0 w-full"
+          style={{
+            display: 'block',
+            clipPath: 'inset(55% 0 0 0)',
+          }}
+          draggable={false}
+          aria-hidden="true"
+        />
+      </div>
     </section>
   )
 }

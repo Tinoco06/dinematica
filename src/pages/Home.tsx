@@ -15,11 +15,9 @@ export function Home({ isReady }: HomeProps) {
     <>
       <Hero isReady={isReady} />
 
-      <Marquee />
-
       <Projects />
 
-      <SectionDivider bg="var(--night-black)" />
+      <Marquee />
 
       <About />
 

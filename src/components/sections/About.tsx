@@ -159,23 +159,6 @@ export function About() {
         </div>
       </div>
 
-      {/* Coordenadas — centradas, despegadas del texto */}
-      <div
-        className="about-meta mt-16 text-center md:mt-24"
-        style={{ visibility: 'hidden' }}
-      >
-        <p
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '13px',
-            color: 'var(--classic-gray)',
-            letterSpacing: '0.15em',
-          }}
-        >
-          14.1066°N, -87.2014°W
-        </p>
-      </div>
-
       <style>{`
         .rotating-text {
           display: flex;
