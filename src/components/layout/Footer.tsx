@@ -20,8 +20,8 @@ export function Footer() {
       }}
     >
       <div
-        className="mx-auto flex flex-col items-center gap-4 text-center md:flex-row md:justify-between md:text-left"
-        style={{ maxWidth: '1200px' }}
+        className="mx-auto flex flex-col items-center gap-4 text-center md:flex-row md:items-center md:justify-between md:text-left"
+        style={{ maxWidth: '1200px', width: '100%' }}
       >
         {/* Izquierda — Copyright */}
         <p

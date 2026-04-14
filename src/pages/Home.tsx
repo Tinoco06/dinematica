@@ -15,14 +15,6 @@ export function Home({ isReady }: HomeProps) {
     <>
       <Hero isReady={isReady} />
 
-      {/* Gradiente: night-black → jet-black (hero → marquee/projects) */}
-      <div
-        style={{
-          height: '80px',
-          background: 'linear-gradient(to bottom, var(--night-black), var(--jet-black))',
-        }}
-      />
-
       <Marquee />
 
       <Projects />

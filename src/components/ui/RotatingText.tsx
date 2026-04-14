@@ -12,14 +12,14 @@ import {
   useState,
 } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import type { Transition } from 'motion/react'
+import type { Transition, TargetAndTransition } from 'motion/react'
 
 interface RotatingTextProps {
   texts: string[]
   transition?: Transition
-  initial?: Record<string, unknown>
-  animate?: Record<string, unknown>
-  exit?: Record<string, unknown>
+  initial?: TargetAndTransition
+  animate?: TargetAndTransition
+  exit?: TargetAndTransition
   animatePresenceMode?: 'wait' | 'sync' | 'popLayout'
   animatePresenceInitial?: boolean
   rotationInterval?: number

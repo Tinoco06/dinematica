@@ -113,6 +113,17 @@ export function Hero({ isReady }: HeroProps) {
         }}
       />
 
+      {/* Fondo atmosférico mobile — gradiente animado cuando no hay dither */}
+      {!isDesktop && (
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            zIndex: 1,
+            background: 'radial-gradient(ellipse at 60% 40%, rgba(255,94,39,0.12) 0%, transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(255,94,39,0.06) 0%, transparent 50%)',
+          }}
+        />
+      )}
+
       {/* Dot pattern de fondo (más visible en mobile donde no hay dither) */}
       <div
         className="dot-pattern pointer-events-none absolute inset-0"

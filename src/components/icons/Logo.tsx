@@ -11,15 +11,15 @@ const DOTS: [number, number][] = [
   // Fila 0 (superior) — 2 pares horizontales
   [2, 0], [3, 0], [5, 0], [6, 0],
   // Lateral izquierdo superior — par vertical
-  [0, 1], [0, 2],
+  [1, 1], [1, 2],
   // Lateral derecho superior — par vertical
   [7, 1], [7, 2],
-  // Centro — cluster (corazón del ícono)
+  // Centro — cluster de 7 dots (corazón del ícono)
   [4, 2], [5, 2],
   [3, 3], [4, 3], [5, 3],
-  [3, 4], [4, 4], [5, 4],
+  [3, 4], [4, 4],
   // Lateral izquierdo inferior — par vertical
-  [0, 4], [0, 5],
+  [1, 4], [1, 5],
   // Lateral derecho inferior — par vertical
   [7, 4], [7, 5],
   // Fila 6 (inferior) — 2 pares horizontales
@@ -110,7 +110,7 @@ export function Logo({
               className="logo-dot"
               cx={cx}
               cy={cy}
-              r={4}
+              r={5}
               fill={color}
               data-cx={cx}
               data-cy={cy}

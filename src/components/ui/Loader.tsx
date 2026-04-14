@@ -12,21 +12,21 @@ const ICON_GRID: [number, number][] = [
   [5, 0], [6, 0],
 
   // Lateral izquierdo superior — par vertical
-  [0, 1],
-  [0, 2],
+  [1, 1],
+  [1, 2],
 
   // Lateral derecho superior — par vertical
   [7, 1],
   [7, 2],
 
-  // Centro — cluster (corazón del ícono)
+  // Centro — cluster de 7 dots (corazón del ícono)
   [4, 2], [5, 2],
   [3, 3], [4, 3], [5, 3],
-  [3, 4], [4, 4], [5, 4],
+  [3, 4], [4, 4],
 
   // Lateral izquierdo inferior — par vertical
-  [0, 4],
-  [0, 5],
+  [1, 4],
+  [1, 5],
 
   // Lateral derecho inferior — par vertical
   [7, 4],
@@ -50,7 +50,7 @@ export function Loader({ onComplete }: LoaderProps) {
   // Tamaños responsivos (Vite SPA, window siempre disponible)
   const isMobile = window.innerWidth < 768
   const dotSize = isMobile ? 12 : 20
-  const dotStep = isMobile ? 18 : 30
+  const dotStep = isMobile ? 12 : 20
   const iconWidth = 7 * dotStep + dotSize
   const iconHeight = 6 * dotStep + dotSize
   const logoGap = isMobile ? 16 : 24

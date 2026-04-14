@@ -1,9 +1,10 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '@/lib/gsap'
+import { TextScramble } from '@/components/ui/TextScramble'
 
 const CONTACT_LINKS = [
   { label: 'beto@dinematica.hn', href: 'mailto:beto@dinematica.hn', size: 'large' },
-  { label: '+504 3030 2020', href: 'tel:+50430302020', size: 'large' },
+  { label: '+504 8914 1814', href: 'tel:+50489141814', size: 'large' },
 ] as const
 
 const SOCIAL_LINKS = [
@@ -121,9 +122,11 @@ export function Contact() {
                 transition: 'color 0.4s ease',
               }}
             >
-              <span className="contact-link-text relative">
-                {link.label}
-              </span>
+              <TextScramble
+                text={link.label}
+                className="contact-link-text relative"
+                speed={25}
+              />
             </a>
           ))}
 
