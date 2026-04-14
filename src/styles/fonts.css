@@ -1,0 +1,12 @@
+/*
+ * Tipografías de Dinemática
+ *
+ * Cooper Hewitt → placeholder: Josefin Sans (geométrica, limpia)
+ * Offbit → placeholder: Space Mono (monospace con carácter)
+ *
+ * Cuando el cliente provea las fuentes reales, reemplazar los
+ * @font-face y actualizar las variables en globals.css
+ */
+
+/* Josefin Sans se importa vía @fontsource en main.tsx */
+/* Space Mono se importa vía @fontsource en main.tsx */

@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ============================================
+   Paleta de Dinemática
+   ============================================ */
+:root {
+  --blaze-orange: #FF5E27;
+  --highlight-green: #D8FF45;
+  --night-black: #181818;
+  --jet-black: #2B2B2B;
+  --classic-gray: #767676;
+  --flash-white: #FFFFFF;
+
+  /* Tipografías */
+  --font-body: 'Cooper Hewitt', sans-serif;
+  --font-display: 'Silkscreen', cursive;
+}
+
+/* ============================================
+   Tailwind v4 — tema personalizado
+   ============================================ */
+@theme {
+  --color-blaze-orange: #FF5E27;
+  --color-highlight-green: #D8FF45;
+  --color-night-black: #181818;
+  --color-jet-black: #2B2B2B;
+  --color-classic-gray: #767676;
+  --color-flash-white: #FFFFFF;
+
+  --font-family-body: 'Cooper Hewitt', sans-serif;
+  --font-family-display: 'Silkscreen', cursive;
+}
+
+/* ============================================
+   Estilos base
+   ============================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--night-black);
+  color: var(--flash-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Selección de texto con colores de marca */
+::selection {
+  background-color: var(--blaze-orange);
+  color: var(--night-black);
+}
+
+/* Scrollbar sutil */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--night-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--classic-gray);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blaze-orange);
+}
+
+/* ============================================
+   Proyectos: aspect ratio responsivo
+   ============================================ */
+@media (min-width: 768px) {
+  .project-card[data-aspect="4/3"] {
+    aspect-ratio: 4/3 !important;
+  }
+  .project-card[data-aspect="16/9"] {
+    aspect-ratio: 16/9 !important;
+  }
+}
+
+/* ============================================
+   Accesibilidad: prefers-reduced-motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Forzar visibilidad de elementos ocultos para GSAP autoAlpha */
+  [style*="visibility: hidden"] {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ============================================
+   Dot pattern — textura de identidad Dinemática
+   ============================================ */
+.dot-pattern {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
+/* ============================================
+   Cursor: ocultar en desktop cuando custom cursor activo
+   ============================================ */
+@media (min-width: 768px) and (pointer: fine) {
+  a, button, [data-cursor] {
+    cursor: none;
+  }
+}
