@@ -193,6 +193,7 @@ export function Hero({ isReady }: HeroProps) {
         className="hero-logo-split absolute bottom-0 left-1/2"
         style={{
           zIndex: 10,
+          bottom: '0',
           transform: 'translateX(-50%) translateY(45%)',
           width: 'clamp(280px, 55vw, 850px)',
           visibility: 'hidden',
