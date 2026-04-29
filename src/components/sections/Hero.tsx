@@ -10,6 +10,7 @@ interface Slide {
   id: string
   title: string
   video: string
+  poster: string
   category: string
 }
 
@@ -18,18 +19,21 @@ const SLIDES: Slide[] = [
     id: 'arbol',
     title: 'Organización Árbol de Misericordia',
     video: '/videos/arbol-de-misericordia.mp4',
+    poster: '/videos/posters/arbol-de-misericordia.jpg',
     category: 'Documental',
   },
   {
     id: 'sinclair',
     title: 'Exportadora SINCLAIR',
     video: '/videos/sinclair.mp4',
+    poster: '/videos/posters/sinclair.jpg',
     category: 'Corporativo',
   },
   {
     id: 'delicias',
     title: 'Delicias del Carmen',
     video: '/videos/delicias-del-carmen.mp4',
+    poster: '/videos/posters/delicias-del-carmen.jpg',
     category: 'Spot',
   },
 ]
@@ -65,39 +69,80 @@ export function Hero({ isReady }: HeroProps) {
   }, [activeIndex, isReady, goTo])
 
   // === Control de reproducción + crossfade entre slides ===
+  // Espera a que el video activo tenga buffer (canplay) antes de animar la
+  // transición — así evitamos el "freeze" visible cuando el siguiente slide
+  // todavía no descargó el primer chunk.
   useEffect(() => {
-    videosRef.current.forEach((video, idx) => {
-      if (!video) return
-      if (idx === activeIndex) {
-        video.play().catch(() => {})
-      } else {
-        video.pause()
+    const activeVideo = videosRef.current[activeIndex]
+
+    // Pausar los inactivos siempre, sin esperar
+    videosRef.current.forEach((v, idx) => {
+      if (v && idx !== activeIndex) v.pause()
+    })
+
+    if (!activeVideo) return
+
+    let cancelled = false
+
+    const startActiveSlide = () => {
+      if (cancelled) return
+
+      // Reset al primer frame para que cada visita arranque igual
+      try {
+        activeVideo.currentTime = 0
+      } catch {
+        // Algunos navegadores en mobile lanzan si el seek no está listo
       }
-    })
+      activeVideo.play().catch(() => {})
 
-    slidesRef.current.forEach((slide, idx) => {
-      if (!slide) return
-      gsap.to(slide, {
-        autoAlpha: idx === activeIndex ? 1 : 0,
-        duration: 0.9,
-        ease: 'power2.inOut',
+      slidesRef.current.forEach((slide, idx) => {
+        if (!slide) return
+        gsap.to(slide, {
+          autoAlpha: idx === activeIndex ? 1 : 0,
+          duration: 1.1,
+          ease: 'power2.inOut',
+        })
       })
-    })
 
-    // Animar entrada del texto del slide activo
-    if (titleRef.current && metaRef.current) {
-      gsap.fromTo(
-        [titleRef.current, metaRef.current],
-        { y: 24, autoAlpha: 0 },
-        {
-          y: 0,
-          autoAlpha: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.08,
-          delay: 0.25,
-        },
-      )
+      if (titleRef.current && metaRef.current) {
+        gsap.fromTo(
+          [titleRef.current, metaRef.current],
+          { y: 24, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            stagger: 0.08,
+            delay: 0.3,
+          },
+        )
+      }
+    }
+
+    // readyState >= 2 (HAVE_CURRENT_DATA): hay al menos un frame listo
+    if (activeVideo.readyState >= 2) {
+      startActiveSlide()
+      return () => {
+        cancelled = true
+      }
+    }
+
+    // Si no, esperar a canplay con un fallback de 1.5s para no bloquear UX
+    const onCanPlay = () => {
+      activeVideo.removeEventListener('canplay', onCanPlay)
+      startActiveSlide()
+    }
+    activeVideo.addEventListener('canplay', onCanPlay)
+    const fallback = window.setTimeout(() => {
+      activeVideo.removeEventListener('canplay', onCanPlay)
+      startActiveSlide()
+    }, 1500)
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(fallback)
+      activeVideo.removeEventListener('canplay', onCanPlay)
     }
   }, [activeIndex])
 
@@ -185,10 +230,13 @@ export function Hero({ isReady }: HeroProps) {
               videosRef.current[idx] = el
             }}
             src={slide.video}
+            poster={slide.poster}
             muted
             loop
             playsInline
-            preload={idx === 0 ? 'auto' : 'metadata'}
+            // Importante: autoPlay en el active para que iOS dispare carga
+            autoPlay={idx === activeIndex}
+            preload="auto"
             className="h-full w-full object-cover"
             // Fondo oscuro mientras el video carga
             style={{ backgroundColor: 'var(--night-black)' }}
