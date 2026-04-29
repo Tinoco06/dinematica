@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Backups locales de videos sin comprimir (no se versionan)
+public/videos/originales/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

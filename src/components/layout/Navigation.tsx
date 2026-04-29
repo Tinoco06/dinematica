@@ -189,17 +189,23 @@ export function Navigation({ isReady = false }: NavigationProps) {
                     visibility: 'hidden',
                     fontFamily: 'var(--font-body)',
                     fontSize: '13px',
-                    fontWeight: 500,
+                    fontWeight: 600,
                     letterSpacing: '0.12em',
-                    color: 'var(--classic-gray)',
-                    transition: 'color 0.3s ease',
+                    color: 'var(--flash-white)',
+                    opacity: 0.92,
+                    textShadow: isScrolled
+                      ? 'none'
+                      : '0 1px 14px rgba(0,0,0,0.7), 0 0 4px rgba(0,0,0,0.4)',
+                    transition: 'color 0.3s ease, opacity 0.3s ease',
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = 'var(--flash-white)')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = 'var(--classic-gray)')
-                  }
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--blaze-orange)'
+                    e.currentTarget.style.opacity = '1'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--flash-white)'
+                    e.currentTarget.style.opacity = '0.92'
+                  }}
                 >
                   {link.label}
                 </button>
