@@ -32,7 +32,7 @@ export function Footer() {
             color: 'var(--classic-gray)',
           }}
         >
-          © 2025 Dinemática
+          © 2026 Dinemática
         </p>
 
         {/* Centro — Ubicación (solo desktop) */}
