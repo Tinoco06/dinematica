@@ -10,7 +10,6 @@ interface Slide {
   id: string
   title: string
   video: string
-  poster: string
   category: string
 }
 
@@ -19,21 +18,18 @@ const SLIDES: Slide[] = [
     id: 'arbol',
     title: 'Organización Árbol de Misericordia',
     video: '/videos/arbol-de-misericordia.mp4',
-    poster: '/videos/posters/arbol-de-misericordia.jpg',
     category: 'Documental',
   },
   {
     id: 'sinclair',
     title: 'Exportadora SINCLAIR',
     video: '/videos/sinclair.mp4',
-    poster: '/videos/posters/sinclair.jpg',
     category: 'Corporativo',
   },
   {
     id: 'delicias',
     title: 'Delicias del Carmen',
     video: '/videos/delicias-del-carmen.mp4',
-    poster: '/videos/posters/delicias-del-carmen.jpg',
     category: 'Spot',
   },
 ]
@@ -87,12 +83,6 @@ export function Hero({ isReady }: HeroProps) {
     const startActiveSlide = () => {
       if (cancelled) return
 
-      // Reset al primer frame para que cada visita arranque igual
-      try {
-        activeVideo.currentTime = 0
-      } catch {
-        // Algunos navegadores en mobile lanzan si el seek no está listo
-      }
       activeVideo.play().catch(() => {})
 
       slidesRef.current.forEach((slide, idx) => {
@@ -230,7 +220,6 @@ export function Hero({ isReady }: HeroProps) {
               videosRef.current[idx] = el
             }}
             src={slide.video}
-            poster={slide.poster}
             muted
             loop
             playsInline
