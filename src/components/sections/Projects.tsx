@@ -4,18 +4,22 @@ import { projects } from '@/data/projects'
 import { ProjectCard } from '@/components/ui/ProjectCard'
 
 /**
- * Layout asimétrico: define tamaño y aspect-ratio por posición.
- * Patrón: grande-pequeño, pequeño-grande, full, etc.
+ * Layout asimétrico — 3 cards verticales con tamaños y offsets verticales
+ * distintos para romper la rejilla y dar feel editorial.
+ *
+ * - Card 1: hero (col-span-5), top-aligned
+ * - Card 2: small (col-span-3), pushed down (mt-32)
+ * - Card 3: medium (col-span-4), slight push (mt-12)
  */
-const LAYOUT: { span: string; aspect: '16/9' | '4/3' }[] = [
-  { span: 'md:col-span-7', aspect: '16/9' },
-  { span: 'md:col-span-5', aspect: '4/3' },
-  { span: 'md:col-span-5', aspect: '4/3' },
-  { span: 'md:col-span-7', aspect: '16/9' },
-  { span: 'md:col-span-12', aspect: '16/9' },
-  { span: 'md:col-span-6', aspect: '4/3' },
-  { span: 'md:col-span-6', aspect: '4/3' },
-  { span: 'md:col-span-7', aspect: '16/9' },
+const LAYOUT: { span: string; aspect: '16/9' | '4/3' | '9/16'; mt: string }[] = [
+  { span: 'md:col-span-5', aspect: '9/16', mt: '' },
+  { span: 'md:col-span-3', aspect: '9/16', mt: 'md:mt-32' },
+  { span: 'md:col-span-4', aspect: '9/16', mt: 'md:mt-12' },
+  { span: 'md:col-span-12', aspect: '16/9', mt: '' },
+  { span: 'md:col-span-6', aspect: '4/3', mt: '' },
+  { span: 'md:col-span-6', aspect: '4/3', mt: '' },
+  { span: 'md:col-span-7', aspect: '16/9', mt: '' },
+  { span: 'md:col-span-5', aspect: '4/3', mt: '' },
 ]
 
 export function Projects() {
@@ -109,14 +113,16 @@ export function Projects() {
         Proyectos
       </h2>
 
-      {/* Grid asimétrico — 12 columnas en desktop, 1 en mobile */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
+      {/* Grid asimétrico — 12 columnas en desktop, 1 en mobile.
+          items-start en desktop para que cada card mantenga su altura
+          natural según aspect-ratio (no se estiren a la fila más alta). */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:items-start md:gap-6">
         {projects.map((project, i) => {
           const layout = LAYOUT[i % LAYOUT.length]
           return (
             <div
               key={project.id}
-              className={`project-wrapper ${layout.span}`}
+              className={`project-wrapper ${layout.span} ${layout.mt}`}
               style={{ visibility: 'hidden' }}
             >
               <ProjectCard project={project} aspect={layout.aspect} />

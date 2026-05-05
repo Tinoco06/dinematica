@@ -315,7 +315,7 @@ export function Navigation({ isReady = false }: NavigationProps) {
                 transition={{ delay: 0.5, duration: 0.4 }}
               >
                 <a
-                  href="mailto:beto@dinematica.hn"
+                  href="mailto:dinematicaproductora@gmail.com"
                   className="menu-footer-link"
                   style={{
                     fontFamily: 'var(--font-display)',
@@ -325,7 +325,7 @@ export function Navigation({ isReady = false }: NavigationProps) {
                     transition: 'color 0.3s ease',
                   }}
                 >
-                  beto@dinematica.hn
+                  dinematicaproductora@gmail.com
                 </a>
                 <a
                   href="#"

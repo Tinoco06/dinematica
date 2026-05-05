@@ -4,10 +4,14 @@ import { categoryLabels } from '@/data/projects'
 
 interface ProjectCardProps {
   project: Project
-  aspect?: '16/9' | '4/3'
+  aspect?: '16/9' | '4/3' | '9/16'
 }
 
 export function ProjectCard({ project, aspect = '16/9' }: ProjectCardProps) {
+  // En mobile siempre 16/9 (legibilidad); en desktop respeta el aspect pasado.
+  // El override por desktop está en globals.css mediante data-aspect.
+  const baseAspect = aspect === '9/16' ? '9/16' : '16/9'
+
   return (
     <Link
       to={`/proyecto/${project.slug}`}
@@ -15,7 +19,7 @@ export function ProjectCard({ project, aspect = '16/9' }: ProjectCardProps) {
       data-cursor="project"
       data-aspect={aspect}
       style={{
-        aspectRatio: '16/9',
+        aspectRatio: baseAspect,
         borderRadius: '4px',
         border: '1px solid rgba(255,255,255,0.05)',
         textDecoration: 'none',

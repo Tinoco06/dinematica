@@ -3,7 +3,7 @@ import { gsap, useGSAP } from '@/lib/gsap'
 import { TextScramble } from '@/components/ui/TextScramble'
 
 const CONTACT_LINKS = [
-  { label: 'beto@dinematica.hn', href: 'mailto:beto@dinematica.hn', size: 'large' },
+  { label: 'dinematicaproductora@gmail.com', href: 'mailto:dinematicaproductora@gmail.com', size: 'large' },
   { label: '+504 8914 1814', href: 'tel:+50489141814', size: 'large' },
 ] as const
 

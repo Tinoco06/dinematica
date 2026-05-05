@@ -123,10 +123,10 @@ export function Logo({
       {showText && (
         <span
           style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(14px, 1.8vw, 18px)',
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(15px, 1.9vw, 20px)',
             fontWeight: 700,
-            letterSpacing: '0.18em',
+            letterSpacing: '0.12em',
             color,
             transition: 'color 0.3s ease',
             lineHeight: 1,

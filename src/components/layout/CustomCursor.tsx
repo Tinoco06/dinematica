@@ -5,7 +5,6 @@ type CursorState = 'default' | 'pointer' | 'project'
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLSpanElement>(null)
   const mouse = useRef({ x: 0, y: 0 })
   const pos = useRef({ x: 0, y: 0 })
   const [state, setState] = useState<CursorState>('default')
@@ -98,15 +97,20 @@ export function CustomCursor() {
 
   // GSAP ticker para interpolación suave — gsap.set() por frame, no gsap.to()
   useGSAP(() => {
-    if (!isDesktop || !cursorRef.current) return
+    if (!isDesktop) return
 
     const speed = 0.15
 
     function tick() {
+      // Guard: el componente puede desmontarse (return null) entre frames
+      // del ticker; sin esto, gsap.set spamea "target null not found".
+      const el = cursorRef.current
+      if (!el) return
+
       pos.current.x += (mouse.current.x - pos.current.x) * speed
       pos.current.y += (mouse.current.y - pos.current.y) * speed
 
-      gsap.set(cursorRef.current, {
+      gsap.set(el, {
         x: pos.current.x,
         y: pos.current.y,
       })
@@ -148,27 +152,9 @@ export function CustomCursor() {
           border: `1px solid ${borderColor}`,
           background: 'none',
           transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           transition: 'width 0.3s ease, height 0.3s ease, border-color 0.3s ease',
         }}
-      >
-        <span
-          ref={textRef}
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '12px',
-            color: 'var(--flash-white)',
-            letterSpacing: '0.1em',
-            opacity: state === 'project' ? 1 : 0,
-            transform: state === 'project' ? 'scale(1)' : 'scale(0.5)',
-            transition: 'opacity 0.3s ease, transform 0.3s ease',
-          }}
-        >
-          VER
-        </span>
-      </div>
+      />
     </div>
   )
 }
