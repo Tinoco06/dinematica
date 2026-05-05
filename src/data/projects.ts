@@ -51,6 +51,30 @@ export const projects: Project[] = [
     color: '#FF5E27',
     director: 'Beto Rueda',
   },
+  {
+    id: '04',
+    slug: 'galeano-x-de-la-finca',
+    title: 'Galeano X de la Finca',
+    category: 'documental',
+    year: 2026,
+    thumbnail: '/projects/galeano-x-de-la-finca-thumb.jpg',
+    video: '/videos/projects/galeano-x-de-la-finca.mp4',
+    videoOrientation: 'vertical',
+    color: '#D8FF45',
+    director: 'Beto Rueda',
+  },
+  {
+    id: '05',
+    slug: 'una-noche-con-julio',
+    title: 'Una Noche con Julio',
+    category: 'cortometraje',
+    year: 2026,
+    thumbnail: '/projects/una-noche-con-julio-thumb.jpg',
+    video: '/videos/projects/una-noche-con-julio.mp4',
+    videoOrientation: 'vertical',
+    color: '#FF5E27',
+    director: 'Beto Rueda',
+  },
 ]
 
 export const categoryLabels: Record<Project['category'], string> = {

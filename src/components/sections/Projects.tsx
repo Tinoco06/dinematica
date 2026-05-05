@@ -4,21 +4,26 @@ import { projects } from '@/data/projects'
 import { ProjectCard } from '@/components/ui/ProjectCard'
 
 /**
- * Layout asimétrico — 3 cards verticales con tamaños y offsets verticales
- * distintos para romper la rejilla y dar feel editorial.
+ * Layout asimétrico — 5 cards verticales (9/16) en dos filas que llenan
+ * la rejilla por completo, con offsets verticales muy contrastantes para
+ * crear ritmo editorial sin dejar huecos muertos.
  *
- * - Card 1: hero (col-span-5), top-aligned
- * - Card 2: small (col-span-3), pushed down (mt-32)
- * - Card 3: medium (col-span-4), slight push (mt-12)
+ * Fila 1 (slots 0-2): col-5 + col-3 + col-4 = 12 — hero + small + medium
+ * Fila 2 (slots 3-4): col-6 + col-6 = 12 — par dominante con stagger fuerte
  */
-const LAYOUT: { span: string; aspect: '16/9' | '4/3' | '9/16'; mt: string }[] = [
+const LAYOUT: {
+  span: string
+  aspect: '16/9' | '4/3' | '9/16'
+  mt: string
+  start?: string
+}[] = [
   { span: 'md:col-span-5', aspect: '9/16', mt: '' },
   { span: 'md:col-span-3', aspect: '9/16', mt: 'md:mt-32' },
   { span: 'md:col-span-4', aspect: '9/16', mt: 'md:mt-12' },
-  { span: 'md:col-span-12', aspect: '16/9', mt: '' },
-  { span: 'md:col-span-6', aspect: '4/3', mt: '' },
-  { span: 'md:col-span-6', aspect: '4/3', mt: '' },
-  { span: 'md:col-span-7', aspect: '16/9', mt: '' },
+  { span: 'md:col-span-6', aspect: '9/16', mt: 'md:mt-16' },
+  { span: 'md:col-span-6', aspect: '9/16', mt: 'md:mt-48' },
+  // Slots de reserva si el portafolio crece (mezcla horizontales/verticales)
+  { span: 'md:col-span-7', aspect: '16/9', mt: 'md:mt-16' },
   { span: 'md:col-span-5', aspect: '4/3', mt: '' },
 ]
 
@@ -122,7 +127,7 @@ export function Projects() {
           return (
             <div
               key={project.id}
-              className={`project-wrapper ${layout.span} ${layout.mt}`}
+              className={`project-wrapper ${layout.span} ${layout.mt} ${layout.start ?? ''}`}
               style={{ visibility: 'hidden' }}
             >
               <ProjectCard project={project} aspect={layout.aspect} />

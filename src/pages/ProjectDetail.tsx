@@ -14,24 +14,31 @@ export function ProjectDetail() {
   const project = projects[projectIndex]
 
   const [isPlaying, setIsPlaying] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
 
-  // Scroll to top on mount
+  // Reset al cambiar de proyecto: scroll top + estado de player limpio
   useEffect(() => {
     window.scrollTo(0, 0)
     setIsPlaying(true)
+    setIsMuted(true)
+    const v = videoRef.current
+    if (v) v.muted = true
   }, [slug])
 
-  // Sincronizar isPlaying con eventos del video (por si el browser pausa)
+  // Sincronizar isPlaying / isMuted con eventos nativos del video
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
     const onPlay = () => setIsPlaying(true)
     const onPause = () => setIsPlaying(false)
+    const onVolumeChange = () => setIsMuted(v.muted)
     v.addEventListener('play', onPlay)
     v.addEventListener('pause', onPause)
+    v.addEventListener('volumechange', onVolumeChange)
     return () => {
       v.removeEventListener('play', onPlay)
       v.removeEventListener('pause', onPause)
+      v.removeEventListener('volumechange', onVolumeChange)
     }
   }, [slug])
 
@@ -40,6 +47,12 @@ export function ProjectDetail() {
     if (!v) return
     if (v.paused) v.play().catch(() => {})
     else v.pause()
+  }
+
+  function toggleMute() {
+    const v = videoRef.current
+    if (!v) return
+    v.muted = !v.muted
   }
 
   // Entry animation
@@ -296,6 +309,74 @@ export function ProjectDetail() {
             </button>
           </div>
         )}
+
+        {/* Botón mute/unmute — bottom-right, secundario al play */}
+        {project.video && (
+          <button
+            type="button"
+            onClick={toggleMute}
+            aria-label={isMuted ? 'Activar audio' : 'Silenciar audio'}
+            aria-pressed={!isMuted}
+            className="detail-controls absolute bottom-5 right-4 flex items-center justify-center md:bottom-6 md:right-5"
+            style={{
+              visibility: 'hidden',
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'rgba(0,0,0,0.55)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              cursor: 'pointer',
+              transition: 'background 0.3s ease, transform 0.2s ease',
+            }}
+            data-cursor
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(0,0,0,0.75)'
+              e.currentTarget.style.transform = 'scale(1.08)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(0,0,0,0.55)'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            {isMuted ? (
+              // Speaker con barra diagonal (muted)
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--flash-white)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <line x1="23" y1="9" x2="17" y2="15" />
+                <line x1="17" y1="9" x2="23" y2="15" />
+              </svg>
+            ) : (
+              // Speaker con ondas (audio activo)
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--flash-white)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            )}
+          </button>
+        )}
       </div>
 
       {/* === Bloque de meta — todo centrado === */}
@@ -471,7 +552,7 @@ export function ProjectDetail() {
                 textTransform: 'uppercase',
               }}
             >
-              Crafted by
+              Shot by
             </span>
             <span
               style={{
