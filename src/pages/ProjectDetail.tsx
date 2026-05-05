@@ -159,7 +159,8 @@ export function ProjectDetail() {
         height: 'min(85vh, 100vw)',
         maxWidth: '95vw',
         margin: '0 auto',
-        marginTop: 'clamp(40px, 6vw, 80px)',
+        // Clearance suficiente para que la nav fixed (~76px) no tape el video
+        marginTop: 'clamp(100px, 10vw, 140px)',
         borderRadius: '12px',
       }
     : {
@@ -570,7 +571,7 @@ export function ProjectDetail() {
         </div>
 
         {/* Volver al portafolio */}
-        <div className="mt-10 md:mt-14">
+        <div className="mt-20 md:mt-24">
           <button
             onClick={() => navigate('/')}
             className="back-link"
